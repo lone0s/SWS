@@ -23,10 +23,10 @@ class User
     private $password;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $isAdmin;
+    private $is_admin;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $isSuperAdmin;
+    private $is_super_admin;
 
     public function getId(): ?int
     {
@@ -71,24 +71,24 @@ class User
 
     public function getIsAdmin(): ?bool
     {
-        return $this->isAdmin;
+        return $this->is_admin;
     }
 
-    public function setIsAdmin(?bool $isAdmin): self
+    public function setIsAdmin(?bool $is_admin): self
     {
-        $this->isAdmin = $isAdmin;
+        $this->is_admin = $is_admin;
 
         return $this;
     }
 
     public function getIsSuperAdmin(): ?bool
     {
-        return $this->isSuperAdmin;
+        return $this->is_super_admin;
     }
 
-    public function setIsSuperAdmin(?bool $isSuperAdmin): self
+    public function setIsSuperAdmin(?bool $is_super_admin): self
     {
-        $this->isSuperAdmin = $isSuperAdmin;
+        $this->is_super_admin = $is_super_admin;
 
         return $this;
     }
