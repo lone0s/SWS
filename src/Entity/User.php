@@ -2,70 +2,47 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- *
- * @ORM\Table(name="im22_user")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 50)]
+    private $name;
+
+    #[ORM\Column(type: 'string', length: 50)]
     private $login;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 50)]
     private $password;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstname_lastname", type="string", length=50, nullable=false)
-     */
-    private $firstnameLastname;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $isAdmin;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isAdmin", type="boolean", nullable=false)
-     */
-    private $isadmin;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isSuperAdmin", type="boolean", nullable=false)
-     */
-    private $issuperadmin;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="id_article", type="integer", nullable=true)
-     */
-    private $idArticle;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $isSuperAdmin;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getLogin(): ?string
@@ -92,53 +69,27 @@ class User
         return $this;
     }
 
-    public function getFirstnameLastname(): ?string
+    public function getIsAdmin(): ?bool
     {
-        return $this->firstnameLastname;
+        return $this->isAdmin;
     }
 
-    public function setFirstnameLastname(string $firstnameLastname): self
+    public function setIsAdmin(?bool $isAdmin): self
     {
-        $this->firstnameLastname = $firstnameLastname;
+        $this->isAdmin = $isAdmin;
 
         return $this;
     }
 
-    public function getIsadmin(): ?bool
+    public function getIsSuperAdmin(): ?bool
     {
-        return $this->isadmin;
+        return $this->isSuperAdmin;
     }
 
-    public function setIsadmin(bool $isadmin): self
+    public function setIsSuperAdmin(?bool $isSuperAdmin): self
     {
-        $this->isadmin = $isadmin;
+        $this->isSuperAdmin = $isSuperAdmin;
 
         return $this;
     }
-
-    public function getIssuperadmin(): ?bool
-    {
-        return $this->issuperadmin;
-    }
-
-    public function setIssuperadmin(bool $issuperadmin): self
-    {
-        $this->issuperadmin = $issuperadmin;
-
-        return $this;
-    }
-
-    public function getIdArticle(): ?int
-    {
-        return $this->idArticle;
-    }
-
-    public function setIdArticle(?int $idArticle): self
-    {
-        $this->idArticle = $idArticle;
-
-        return $this;
-    }
-
-
 }

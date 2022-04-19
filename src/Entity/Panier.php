@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
+use App\Repository\PanierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article
+#[ORM\Entity(repositoryClass: PanierRepository::class)]
+class Panier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $libelle;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $id_user;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private $price;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $id_article;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $quantity;
@@ -27,26 +27,26 @@ class Article
         return $this->id;
     }
 
-    public function getLibelle(): ?string
+    public function getIdUser(): ?int
     {
-        return $this->libelle;
+        return $this->id_user;
     }
 
-    public function setLibelle(string $libelle): self
+    public function setIdUser(?int $id_user): self
     {
-        $this->libelle = $libelle;
+        $this->id_user = $id_user;
 
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getIdArticle(): ?int
     {
-        return $this->price;
+        return $this->id_article;
     }
 
-    public function setPrice(string $price): self
+    public function setIdArticle(?int $id_article): self
     {
-        $this->price = $price;
+        $this->id_article = $id_article;
 
         return $this;
     }
