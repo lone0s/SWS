@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * User
@@ -41,6 +42,13 @@ class User
      * @ORM\Column(name="firstname_lastname", type="string", length=50, nullable=false)
      */
     private $firstnameLastname;
+
+    /**
+     * @var Date
+     *
+     * @ORM\Column(name="birthdate", type="date", nullable=false)
+     */
+    private $birthdate;
 
     /**
      * @var bool
@@ -136,6 +144,18 @@ class User
     public function setIdArticle(?int $idArticle): self
     {
         $this->idArticle = $idArticle;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
 
         return $this;
     }
