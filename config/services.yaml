@@ -4,10 +4,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+<<<<<<< HEAD
     login: 'Jalex'
     firstname: 'Jean'
     lastname: 'Alexandre'
     birth: '12/12/02'
+=======
+    moi : null
+#>>>>>>> 196c8424c44b9fb16b59d34b120b1bc1c62ea12e
 
 services:
     # default configuration for services in *this* file
