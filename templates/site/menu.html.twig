@@ -1,10 +1,29 @@
-{% extends 'site/base.html.twig' %}
-
 {% block menu %}
-    <ul>
-        <li>Panier : 
-            <!-- insérer le nbr d'article -->
-        </li>
-        <li>
-        <li>
+    <nav>
+        <ul>
+            {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY')%}
+                <li><a href={{ path('app_main') }}>Menu</a></li>
+                <li><a href={{ path('app_register')}}>Créer un compte</a></li>
+                <li><a href={{ path('app_login')}}>Connexion</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_USER') and is_granted('ROLE_SUPER_ADMIN') == false %}
+                <li><a href={{ path('app_main') }}>Menu</a></li>
+                <li><a href={{ path('') }}>Modifier profil</a></li>
+                <li><a href={{ path('_get_products') }}>Lister produits</a></li>
+                <li><a href={{ path('') }}>Panier</a></li>
+                <li><a href={{ path('app_logout')}}>Déconnexion</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') and is_granted('ROLE_SUPER_ADMIN') == false %}
+                <li><a href={{ path('') }}>Gestion des utilisateurs</a></li>
+                <li><a href={{ path('_add_products') }}>Ajouter un produit</a></li>
+                <li><a href='https://fr.wikipedia.org/wiki/The_Truman_Show'>The Truman Show</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li><a href={{ path('app_main') }}>Menu</a></li>
+                <li><a href={{ path('') }}>Modifier profil</a></li>
+                <li><a href={{ path('') }}>Ajouter un admin</a></li>
+                <li><a href={{ path('app_logout')}}>Déconnexion</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
