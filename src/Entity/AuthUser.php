@@ -23,9 +23,14 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: false)]
     private $password;
 
+    #[ORM\Column(type: 'string', nullable : false)]
+    private $firstName;
+
+    #[ORM\Column(type: 'string', nullable : false)]
+    private $lastName;
     public function getId(): ?int
     {
         return $this->id;
@@ -113,5 +118,29 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
     }
 }
