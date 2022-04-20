@@ -4,15 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PanierRepository;
 use Doctrine\ORM\Mapping as ORM;
- /**
-  * @ORM\Table(
-  *     name="asso_user_panier",
-  *     uniqueConstraints={
-  *         @ORM\UniqueConstraint(name="ahe_idx", columns={"id_user", "id_panier", "annee"})
-  *     }
-  * )
-  * @ORM\Entity(repositoryClass=HabitantEtablissementRepository::class)
-  */
+
+#[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
     #[ORM\Id]
@@ -24,7 +17,7 @@ class Panier
      * @var User
      * @ORM\ManyToOne(targetEntity=AuthUser::class)
      * @ORM\JoinColum(name="id_user", nullable=false)
-     */ 
+     */
     private $id_user;
 
     /**
