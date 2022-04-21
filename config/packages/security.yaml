@@ -9,6 +9,7 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
+        users_in_memory: {memory : null}
         app_user_provider:
             entity:
                 class: App\Entity\AuthUser
@@ -41,6 +42,10 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN : ROLE_ADMIN
+        ROLE_ADMIN : ROLE_USER
 
 when@test:
     security:
