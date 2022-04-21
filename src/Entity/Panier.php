@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PanierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
@@ -13,60 +15,70 @@ class Panier
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity=AuthUser::class)
-     * @ORM\JoinColum(name="id_user", nullable=false)
-     */
+    #[ORM\OneToOne(inversedBy: 'id_panier', targetEntity: AuthUser::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $id_user;
 
-    /**
-     * @var Article
-     * @ORM\ManyToOne(targetEntity=Article::class)
-     * @ORM\JoinColum(name="id_panier", nullable=false)
-     */
+    #[ORM\ManyToMany(targetEntity: Article::class)]
     private $id_article;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $quantity;
+    #[ORM\Column(type: 'integer')]
+    private $quantite;
+
+    public function __construct()
+    {
+        $this->id_article = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdUser(): ?int
+    public function getIdUser(): ?AuthUser
     {
         return $this->id_user;
     }
 
-    public function setIdUser(?int $id_user): self
+    public function setIdUser(AuthUser $id_user): self
     {
         $this->id_user = $id_user;
 
         return $this;
     }
 
-    public function getIdArticle(): ?int
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getIdArticle(): Collection
     {
         return $this->id_article;
     }
 
-    public function setIdArticle(?int $id_article): self
+    public function addIdArticle(Article $idArticle): self
     {
-        $this->id_article = $id_article;
+        if (!$this->id_article->contains($idArticle)) {
+            $this->id_article[] = $idArticle;
+        }
 
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function removeIdArticle(Article $idArticle): self
     {
-        return $this->quantity;
+        $this->id_article->removeElement($idArticle);
+
+        return $this;
     }
 
-    public function setQuantity(?int $quantity): self
+    public function getQuantite(): ?int
     {
-        $this->quantity = $quantity;
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }
