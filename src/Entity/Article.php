@@ -22,10 +22,10 @@ class Article
     #[ORM\Column(type: 'integer', nullable: true)]
     private $quantity;
 
-    public function getId(): ?int
+    /*public function getIdArticle(): ?int
     {
-        return $this->id;
-    }
+        return $this->id_article;
+    }*/
 
     public function getLibelle(): ?string
     {
@@ -61,5 +61,10 @@ class Article
         $this->quantity = $quantity;
 
         return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

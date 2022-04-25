@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\PanierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table (name: 'Panier')]
+#[ORM\UniqueConstraint (name : "au_idx", columns: ["user_id","article_id","quantite"])]
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
@@ -15,58 +15,42 @@ class Panier
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToOne(inversedBy: 'id', targetEntity: AuthUser::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: AuthUser::class)]
+    #[ORM\JoinColumn( nullable: false)]
+    private $user;
+    
+    #[ORM\ManyToOne(targetEntity: Article::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $id_user;
-
-    #[ORM\ManyToMany(targetEntity: Article::class)]
-    private $id_article;
+    private $article;
 
     #[ORM\Column(type: 'integer')]
     private $quantite;
-
-    public function __construct()
-    {
-        $this->id_article = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdUser(): ?AuthUser
+    public function getUser(): ?AuthUser
     {
-        return $this->id_user;
+        return $this->user;
     }
 
-    public function setIdUser(AuthUser $id_user): self
+    public function setUser(?AuthUser $user): self
     {
-        $this->id_user = $id_user;
+        $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getIdArticle(): Collection
+    public function getArticle(): ?Article
     {
-        return $this->id_article;
+        return $this->article;
     }
 
-    public function addIdArticle(Article $idArticle): self
+    public function setArticle(?Article $article): self
     {
-        if (!$this->id_article->contains($idArticle)) {
-            $this->id_article[] = $idArticle;
-        }
-
-        return $this;
-    }
-
-    public function removeIdArticle(Article $idArticle): self
-    {
-        $this->id_article->removeElement($idArticle);
+        $this->article = $article;
 
         return $this;
     }
