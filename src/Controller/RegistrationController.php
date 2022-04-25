@@ -32,6 +32,7 @@ class RegistrationController extends AbstractController
             );
             /** @var \App\Entity\AuthUser $user */
             $user = $this -> getUser();
+            //$user -> getId();
             $panier = new Panier();
             $panier -> setIdUser($user);
             $user -> setIdPanier( $panier );

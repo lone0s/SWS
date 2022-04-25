@@ -7,7 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table (name: 'Panier', uniqueConstraints: [])]
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="Panier",uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="authUserArticle_idx", columns={"name", "email"})})
+ */
+#[ORM\Table (name: 'Panier', uniqueConstraints: )]
+#[ORM\UniqueConstraint (name : "au_idx", columns: ["id"])]
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {

@@ -34,7 +34,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'id_user', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
     private $id_panier;
-    public function getId(): ?int
+    pubxlic function getId(): ?int
     {
         return $this->id;
     }
