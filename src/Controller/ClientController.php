@@ -46,6 +46,7 @@ class ClientController extends AbstractController
         $args = array("formulaire" => $form->createView());
         return $this -> render("Form/articleForm.html.twig",$args);
     }
+
     // NE SURTOUT PAS UTILISER NE FONCTIONNE PAS
     // SAUF SI TU VEUX ENCORE PLUS TOUT NIQUER
     // DIEU FACE A MA VIE ETRE COMME UTILISER CETTE FONCTION 10X PAR JOUR
