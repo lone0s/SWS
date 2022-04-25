@@ -1,16 +1,17 @@
 {% block menu %}
     <nav>
         <ul>
-            {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY')%}
+            {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and is_granted('ROLE_USER') == false
+                and is_granted('ROLE_SUPER_ADMIN') == false%}
                 <li><a href={{ path('app_main') }}>Menu</a></li>
                 <li><a href={{ path('app_register')}}>Créer un compte</a></li>
                 <li><a href={{ path('app_login')}}>Connexion</a></li>
             {% endif %}
             {% if is_granted('ROLE_USER') and is_granted('ROLE_SUPER_ADMIN') == false %}
                 <li><a href={{ path('app_main') }}>Menu</a></li>
-                <li><a href={{ path('') }}>Modifier profil</a></li>
+                <li><a href={{ path('app_edit_profile') }}>Modifier profil</a></li>
                 <li><a href={{ path('_get_products') }}>Lister produits</a></li>
-                <li><a href={{ path('') }}>Panier</a></li>
+                <li><a >Panier</a></li>
                 <li><a href={{ path('app_logout')}}>Déconnexion</a></li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') and is_granted('ROLE_SUPER_ADMIN') == false %}
@@ -20,8 +21,8 @@
             {% endif %}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li><a href={{ path('app_main') }}>Menu</a></li>
-                <li><a href={{ path('') }}>Modifier profil</a></li>
-                <li><a href={{ path('') }}>Ajouter un admin</a></li>
+                <li><a href={{ path('app_editprofile') }}>Modifier profil</a></li>
+                <li><a href={{ path('') }}>Ajouter un admin</a></li>s
                 <li><a href={{ path('app_logout')}}>Déconnexion</a></li>
             {% endif %}
         </ul>

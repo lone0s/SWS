@@ -18,9 +18,6 @@ class ProfileController extends AbstractController
         $em = $doc->getManager();
         /** @var \App\Entity\AuthUser $user */
         $user = $this->getUser();
-        $id = $user->getId();
-        $userRepo = $em -> getRepository("App:AuthUser");
-        $authentificatedUser = $userRepo -> find($id);
         $form = $this->createForm(EditProfilType::class, $user);
         $form->add("send", SubmitType::class, ['label' => "Valider les changements"]);
         $form -> handleRequest($request);
