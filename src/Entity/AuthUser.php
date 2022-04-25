@@ -31,6 +31,10 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable : false)]
     private $lastName;
+
+    #[ORM\OneToOne(targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $panier;
     /*
     #[ORM\OneToOne(mappedBy: 'id', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
     private $id_panier;*/
@@ -168,5 +172,17 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(Panier $panier): self
+    {
+        $this->panier = $panier;
+
+        return $this;
     }
 }

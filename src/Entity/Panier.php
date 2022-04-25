@@ -20,10 +20,10 @@ class Panier
     private $user;
     
     #[ORM\ManyToOne(targetEntity: Article::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $article;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable : true)]
     private $quantite;
 
     public function getId(): ?int
