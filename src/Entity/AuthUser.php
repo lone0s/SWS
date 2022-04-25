@@ -31,13 +31,14 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable : false)]
     private $lastName;
+    /*
+    #[ORM\OneToOne(mappedBy: 'id', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    private $id_panier;*/
 
-    #[ORM\OneToOne(mappedBy: 'id_user', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
-    private $id_panier;
-    pubxlic function getId(): ?int
+    /*public function getIdUser(): ?int
     {
-        return $this->id;
-    }
+        return $this->id_user;
+    }*/
 
     public function getLogin(): ?string
     {
@@ -147,7 +148,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getIdPanier(): ?Panier
+    /*public function getIdPanier(): ?Panier
     {
         return $this->id_panier;
     }
@@ -162,5 +163,10 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         $this->id_panier = $id_panier;
 
         return $this;
+    }*/
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }
