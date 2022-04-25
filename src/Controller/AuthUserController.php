@@ -19,16 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AuthUserController extends AbstractController
 {
+
     /**
-     * @Route(
-     *  "/user/{login}/{password}",
-     *  name="_auth"
-     * )
+     * @param ManagerRegistry $doc
+     * @param Request $request
+     * @return Response
+     * Version Souhail
      */
-    /*public function connexion($login, $password): Response
-    {
-        
-    }*/
     #[Route('/create_account', name: '_createaccountApp')]
 
     public function createAccountAction(ManagerRegistry $doc, Request $request) : Response {

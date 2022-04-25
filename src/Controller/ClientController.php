@@ -61,7 +61,9 @@ class ClientController extends AbstractController
         $article = $articleRep -> find($id);
         $panierRep = $em -> getRepository("App:Panier");
         //On
-        $userId = $this->getParameter('id');
+        /** @var \App\Entity\AuthUser $user */
+        $user = $this -> getUser();
+        $userId = $user -> getId();
         // Il faut que clé primaire Panier = clé primaire auth_user + articles ==> table de jointure mais comment frere???
         $panier = $panierRep -> find($userId);
         $panier -> addIdArticle($article);

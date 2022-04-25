@@ -15,11 +15,11 @@ class FormController extends AbstractController
      * Authentification 1ere partie
      */
     // Pour pas avoir a redéfinir a chaque fois
-    public static array $userPrivileges = array(
+    /*public static array $userPrivileges = array(
         'isadmin' => true,
         'issuperadmin' => true,
         'idArticle' => null
-    );
+    );*/
 
     #[Route('/create_account', name: 'create_account')]
     public function createAccountAction(EntityManager $em) : Response {
