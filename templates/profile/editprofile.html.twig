@@ -3,14 +3,16 @@
 {% block title %}CBD DEALERZZZ - Modification profil{% endblock %}
 
 {% block page %}
-    <h1>Edition du profil</h1>
-    <div>
-        {{ form_start(editForm) }}
-            {{ form_row(editForm.password, {
-                label: 'Password'
-            }) }}
-            {{ form_row(editForm.firstname) }}
-            {{ form_row(editForm.lastname) }}
-        {{ form_end(editForm) }}
-    </div>
+    <form method="post">
+        <h1>Edition du profil</h1>
+        <div>
+            {{ form_start(editForm) }}
+                {{ form_row(editForm.password, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(editForm.firstname) }}
+                {{ form_row(editForm.lastname) }}
+            {{ form_end(editForm) }}
+        </div>
+    </form>
 {% endblock %}

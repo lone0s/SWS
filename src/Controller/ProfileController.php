@@ -27,12 +27,14 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form -> isValid()) {
             $user = $form->getData();
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            if($form->get('plainPassword') != null) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+            }
             $em->persist($user);
             $em->flush();
             $this->addFlash('info', "Modifications réussies");
