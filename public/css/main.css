@@ -3,23 +3,37 @@ body {
 }
 
 body {
-    background: linear-gradient(190deg, rgba(238,174,202,1) 30%, rgba(148,187,233,1) 100%);
+    background: #CAD2C5;
     margin: 0;
     padding: 0;
 }
+h1{
+    color: #2F3E46;
+}
+
 .title{
     text-align: center;
+    padding: 20px;
 }
 
 .footer{
     margin: 0;
     padding: 14px 16px;
     text-align: center;
-    background-color: #333333;
+    background-color: #52796F;
     position: fixed;
     bottom: 0;
     width: 100%;
-    color: white;
+    color: #2F3E46;
+}
+
+
+img {
+    max-width: 200px;
+    height: auto;
+    position: absolute;
+    left: 20px;
+    top: 20px;
 }
 
 ul {
@@ -27,7 +41,8 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333333;
+    background-color: #52796F;
+    color: #CAD2C5;
 }
 
 li {
@@ -47,5 +62,5 @@ li a {
 }
 
 li a:hover {
-    background-color: #3adb76;
+    background-color: #84A98C;
 }
