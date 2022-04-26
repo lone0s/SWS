@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -22,10 +24,18 @@ class Article
     #[ORM\Column(type: 'integer', nullable: true)]
     private $quantity;
 
-    /*public function getIdArticle(): ?int
+    #[ORM\OneToMany(mappedBy: "article", targetEntity: Panier::class, orphanRemoval: true)]
+    private $panier;
+
+    public function __construct()
     {
-        return $this->id_article;
-    }*/
+        $this->panier = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getLibelle(): ?string
     {
@@ -63,8 +73,34 @@ class Article
         return $this;
     }
 
-    public function getId(): ?int
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPanier(): Collection
     {
-        return $this->id;
+        return $this->panier;
     }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->panier->contains($panier)) {
+            $this->panier[] = $panier;
+            $panier->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->panier->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getArticle() === $this) {
+                $panier->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
