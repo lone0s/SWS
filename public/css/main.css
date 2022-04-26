@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(190deg, rgba(238,174,202,1) 30%, rgba(148,187,233,1) 100%);
+    margin: 0;
+    padding: 0;
+}
+
+.footer{
+    margin: 0;
+    padding: 14px 16px;
+    text-align: center;
+    background-color: #333333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+
+li {
+    float: left;
+}
+
+.connect{
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #3adb76;
+}
