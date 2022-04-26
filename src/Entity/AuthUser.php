@@ -12,6 +12,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['login'], message: 'There is already an account with this login')]
 class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public function __construct(){
+        $panier = new Panier($this);
+        $this->setPanier($panier);
+        $this->setRoles((array)"ROLE_USER");
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

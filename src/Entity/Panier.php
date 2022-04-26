@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
 {
+    public function __construct($user){
+        $this->setUser($user);
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
