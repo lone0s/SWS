@@ -65,7 +65,7 @@ li a:hover {
     background-color: #84A98C;
 }
 
-form{
+form, .tab{
     background-color: white;
     width: 400px;
     height: auto;
@@ -76,7 +76,6 @@ form{
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-
 }
 
 form h1{

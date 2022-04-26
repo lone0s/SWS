@@ -31,10 +31,8 @@ class RegistrationController extends AbstractController
                 )
             );
             //$user -> setPanier($basket);
-            $basket = new Panier();
             $userData = $form ->getData();
-            $userData -> setPanier($basket);
-            $basket -> setUser($userData);
+
             ///** @var \App\Entity\AuthUser $user */
             //$user = $this -> getUser();
             //$user -> getId();
@@ -42,7 +40,6 @@ class RegistrationController extends AbstractController
             //$panier -> setUser($user);
             //$user -> setIdPanier( $panier );
             $entityManager->persist($userData);
-            $entityManager->persist($basket);
             $entityManager->flush();
             // do anything else you need here, like send an email
 

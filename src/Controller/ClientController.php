@@ -20,6 +20,8 @@ class ClientController extends AbstractController
         $artRep = $em -> getRepository("App:Article");
         $articles = $artRep -> findAll();
         $args = array('articles' => $articles);
+        $user = $this -> getUser();
+        dump($user);
         return $this -> render("site/liste.html.twig", $args);
     }
 
