@@ -30,15 +30,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            //$user -> setPanier($basket);
             $userData = $form ->getData();
-
-            ///** @var \App\Entity\AuthUser $user */
-            //$user = $this -> getUser();
-            //$user -> getId();
-            //$panier = new Panier();
-            //$panier -> setUser($user);
-            //$user -> setIdPanier( $panier );
             $entityManager->persist($userData);
             $entityManager->flush();
             // do anything else you need here, like send an email

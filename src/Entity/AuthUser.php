@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AuthUserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -12,11 +14,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['login'], message: 'There is already an account with this login')]
 class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /*
     public function __construct(){
+        $panier = new Panier();
+        $this->addPanier($panier);
+        $this->setRoles((array)"ROLE_USER");
+        $this->panier = new ArrayCollection();
+    }*/
+
+    public function __construct()
+    {
         $panier = new Panier($this);
-        $this->setPanier($panier);
+        $this->panier = new ArrayCollection();
+        $this->panier ->add($panier);
         $this->setRoles((array)"ROLE_USER");
     }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -37,17 +50,13 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable : false)]
     private $lastName;
 
-    #[ORM\OneToOne(targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    /*#[ORM\OneToOne(targetEntity: Panier::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $panier;
-    /*
-    #[ORM\OneToOne(mappedBy: 'id', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
-    private $id_panier;*/
+    */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    private $panier;
 
-    /*public function getIdUser(): ?int
-    {
-        return $this->id_user;
-    }*/
 
     public function getLogin(): ?string
     {
@@ -132,6 +141,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+    /*
 
     public function getFirstName(): ?string
     {
@@ -173,7 +183,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }*/
-
+    /*
     public function getId(): ?int
     {
         return $this->id;
@@ -187,6 +197,87 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPanier(Panier $panier): self
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->panier->contains($panier)) {
+            $this->panier[] = $panier;
+            $panier->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->panier->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
+            }
+        }
+
+        return $this;
+    }*/
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPanier(): Collection
+    {
+        return $this->panier;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->panier->contains($panier)) {
+            $this->panier[] = $panier;
+            $panier->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->panier->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
+            }
+        }
 
         return $this;
     }
