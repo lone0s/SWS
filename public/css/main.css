@@ -126,3 +126,7 @@ button:hover{
 .alert-danger{
     color: red;
 }
+
+table{
+    border-collapse: collapse;
+}
