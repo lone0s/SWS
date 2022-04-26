@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
-
+use App\Entity\AuthUser;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,8 +34,8 @@ class EditProfilType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('firstName')
-            ->add('lastName')
+            ->add('firstname')
+            ->add('lastname')
             //->add('id_panier')
         ;
     }

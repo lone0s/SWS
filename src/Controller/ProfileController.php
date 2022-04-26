@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\EditProfilType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,6 +31,6 @@ class ProfileController extends AbstractController
         }
         
         $args = array("editForm" => $form->createView());
-        return $this->render('profile/index.html.twig', $args);
+        return $this->render('profile/editprofile.html.twig', $args);
     }
 }

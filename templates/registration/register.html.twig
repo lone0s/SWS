@@ -1,4 +1,4 @@
-{% extends 'site/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}CBD DEALERZZZ - Register{% endblock %}
 
@@ -10,6 +10,8 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+        {{ form_row(registrationForm.firstname) }}
+        {{ form_row(registrationForm.lastname) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
