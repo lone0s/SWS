@@ -1,8 +1,9 @@
 {% block bienvenue %}
-    <!-- Il faut ajouter le nom de la personne connectée-->
-    {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
-        <h1>Bonjour</h1>
-    {% else %}
-        <h1>Bonjour {{app.user.firstname}}</h1>
-    {% endif %}
+    <div class="title">
+        {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+            <h1>Bonjour</h1>
+        {% else %}
+            <h1>Bonjour {{app.user.firstname}}</h1>
+        {% endif %}
+    </div>
 {% endblock %}
