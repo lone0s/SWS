@@ -127,6 +127,24 @@ button:hover{
     color: red;
 }
 
+table, th, td{
+    border-bottom: 1px solid;
+    padding: 5px;
+    text-align: center;
+}
+
 table{
     border-collapse: collapse;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th{
+    background-color: #52796F;
+    color: white;
+}
+
+tr:hover{
+    background-color: #84A98C;
 }
