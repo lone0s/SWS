@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AuthUser;
+use App\Entity\Panier;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,8 +30,19 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
-            $entityManager->persist($user);
+            //$user -> setPanier($basket);
+            $basket = new Panier();
+            $userData = $form ->getData();
+            $userData -> setPanier($basket);
+            $basket -> setUser($userData);
+            ///** @var \App\Entity\AuthUser $user */
+            //$user = $this -> getUser();
+            //$user -> getId();
+            //$panier = new Panier();
+            //$panier -> setUser($user);
+            //$user -> setIdPanier( $panier );
+            $entityManager->persist($userData);
+            $entityManager->persist($basket);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
