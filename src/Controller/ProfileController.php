@@ -41,7 +41,7 @@ class ProfileController extends AbstractController
             if(in_array('ROLE_SUPER_ADMIN', $user->getRoles()))
                 return $this->redirectToRoute('app_main');
             else
-                return $this->redirectToRoute('_get_products');
+                return $this->redirectToRoute('product_get_list');
         }
         
         $args = array("editForm" => $form->createView());

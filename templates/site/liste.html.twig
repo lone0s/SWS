@@ -5,15 +5,7 @@
 {% set choix = 0 %}
 {% set demande = 1 %}
 {% block page %}
-    <script type="text/javascript">
-        function findmyvalue()
-        {
-            var choix = document.getElementById("choix").value;
-
-            alert(choix);
-        }
-    </script>
-    <div class="tab">
+    <form method="post">
         <h2>Liste de tous les articles</h2>
         <table>
             <tr>
@@ -30,22 +22,21 @@
                         <td>{{ article.id }}</td>
                         <td>{{ article.libelle }}</td>
                         <td>{{ article.price }}</td>
-                        <td>{{ article.stock }}</td>     <!--, 'quantity' : demande <-- Ne marche pas -->
-                        <td><a href="{{ path ('_add_product_to_basket', { 'id' : article.id} ) }}">Ajouter</a></td>
+                        <td>{{ article.stock }}</td>
                         <td>
                             <label for="choix"></label>
                             <select id = "choix">
                             {% for choix in 1 .. article.stock %}
-                            <option value="{{ choix }}">
-                                {{ choix }}</option>
-                                {% endfor %}
+                                <option value="{{ choix }}">{{ choix }}</option>
+                            {% endfor %}
                                 {{ dump(choix) }}
                             </select>
                         </td>
                     </tr>
                 {% endfor %}
+                <button type="submit" class="btn">Ajouter au panier</button>
             {% endif %}
         </table>
-    </div>
+    </form>
 
 {% endblock %}

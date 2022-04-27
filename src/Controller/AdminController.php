@@ -69,7 +69,7 @@ class AdminController extends AbstractController
         $userRepo = $em->getRepository("App:User");
         $user = $userRepo->find($id);
         if($user != null){
-            $user->setRoles('ROLE_ADMIN');
+            $user->setRoles(array('ROLE_ADMIN'));
             $em->flush();
             $this->addFlash('info', 'Ajoute admin réussi !');
         }

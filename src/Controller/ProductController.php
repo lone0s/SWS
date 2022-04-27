@@ -13,9 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ClientController extends AbstractController
+#[Route('/product', name: 'product')]
+class ProductController extends AbstractController
 {
-    #[Route('/product', name: '_get_products')]
+    #[Route('/get_list', name: '_get_list')]
     public function listProductsAction(ManagerRegistry $doc): Response
     {
         $em = $doc -> getManager();
@@ -26,8 +27,7 @@ class ClientController extends AbstractController
         return $this -> render("site/liste.html.twig", $args);
     }
 
-    #[Route('/add_product', name: '_add_product')]
-
+    #[Route('/add', name: '_add')]
     public function addProductAction(ManagerRegistry $doc, Request $request) : Response
     {
         $em = $doc -> getManager();
@@ -40,7 +40,7 @@ class ClientController extends AbstractController
             $em -> persist($article);
             $em -> flush();
             $this -> addFlash('info', "Ajout d'un article réussi");
-            return $this -> redirectToRoute("_get_products");
+            return $this -> redirectToRoute("product_get_list");
         }
         if($form -> isSubmitted()) {
             $this->addFlash('info', "Ajout non réussi: veuillez vérifier les champs saisies");
@@ -50,7 +50,7 @@ class ClientController extends AbstractController
         return $this -> render("Form/articleForm.html.twig",$args);
     }
     //Penser a gérer les Requirements
-    #[Route('/product/add/{id}/{quantity}', name : '_add_product_to_basket', defaults: ['quantity' => 1])]
+    #[Route('/add_to_basket/{id}/{quantity}', name : '_add_to_basket', defaults: ['quantity' => 1])]
     public function addToBasket(ManagerRegistry $doc, $id, $quantity) : Response
     {
         $em = $doc -> getManager();
@@ -89,10 +89,10 @@ class ClientController extends AbstractController
                 $this->addFlash('success', "Ajout dans panier reussi");
             }
         }
-        return $this -> redirectToRoute('_get_products');
+        return $this -> redirectToRoute('product_get_list');
     }
 
-    #[Route('/product/remove/{id}', name : '_remove_product')]
+    #[Route('/remove/{id}', name : '_remove')]
     public function removeFromBasket(ManagerRegistry $doc, $id) : Response {
         $em = $doc -> getManager();
         $bProductRepository = $em -> getRepository('App:BasketProduct');
