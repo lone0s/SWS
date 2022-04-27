@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(){
-        $panier = new Panier($this);
+        $panier = new Basket($this);
         $this->setBasket($panier);
     }
     #[ORM\Id]
