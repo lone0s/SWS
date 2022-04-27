@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CBD DEALERZZZ - Basket{% endblock %}
+
+{% block page %}
+    <div class="tab">
+        <h2>Liste des articles dans votre panier</h2>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>produit</th>
+                <th>quantité</th>
+            </tr>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.product.libelle }}</td>
+                    <td>{{ article.quantity }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

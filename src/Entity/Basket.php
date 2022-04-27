@@ -74,7 +74,14 @@ class Basket
 
         return $this;
     }
+    /*** Fait main ***/
 
+
+    /**
+     * @param Product $product
+     * @return bool
+     * Permet de vérifier l'existence d'un produit recherché dans une collection
+     */
   public function hasProduct(Product $product) : bool
     {
         $res = false;
@@ -87,6 +94,11 @@ class Basket
         return $res;
     }
 
+    /**
+     * @param Product $product
+     * @return BasketProduct
+     * Permet de récuperer le BasketProduct correspondant au Produit recherché
+     */
     public function getBasketProduct (Product $product) : BasketProduct
     {
         $res = null;
@@ -100,5 +112,13 @@ class Basket
         }
         else
             return $res;
+    }
+
+    /**
+     * @return array
+     * Permet d'obtenir un tableau
+     */
+    public function getBasketProductsArray() : array {
+        return $this -> basketProducts ->toArray();
     }
 }

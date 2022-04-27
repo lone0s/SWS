@@ -21,9 +21,8 @@ class ClientController extends AbstractController
         $em = $doc -> getManager();
         $artRep = $em -> getRepository("App:Product");
         $articles = $artRep -> findAll();
+        dump($articles);
         $args = array('articles' => $articles);
-        $user = $this -> getUser();
-        dump($user);
         return $this -> render("site/liste.html.twig", $args);
     }
 
@@ -56,6 +55,7 @@ class ClientController extends AbstractController
     {
         $em = $doc -> getManager();
         $productRepository = $em -> getRepository("App:Product");
+        //TRAITER CAS OU QUELQU'UN RENTRE LA ROUTE MANUELLEMENT
         $product = $productRepository -> find($id);
         dump($product);
         if (!is_null($product) && $product -> getStock() > 0 )
@@ -91,6 +91,19 @@ class ClientController extends AbstractController
         return $this -> redirectToRoute('_get_products');
     }
 
+    #[Route('/product/remove/{id}', name : '_remove_product')]
+    public function removeFromBasket(ManagerRegistry $doc, $id) : Response {
+        $em = $doc -> getManager();
+        $bProductRepository = $em -> getRepository('App:BasketProduct');
+        /** @var User $user */
+        $user = $this -> getUser();
+        $userBasketContent = $user -> getBasket() -> getBasketProducts();
+        $toz = $userBasketContent ->
+        if (! is_null($userBasketContent)) {
+            $productToRem = $userBasketContent -
+        }
+    }
+
     #[Route('/userInfo', name: '_userInfo')]
     public function getUserVarDump(ManagerRegistry $doc) : Response {
         $em = $doc -> getManager();
@@ -99,11 +112,41 @@ class ClientController extends AbstractController
         /** @var User $user */
         $user = $this -> getUser();
         $userBasket = $user -> getBasket();
-        dump($userBasket -> hasProduct($product));
         //dump($userTest);
         return dump($userBasket);
     }
 
+    #[Route('/basket', name: '_get_basket_products')]
+    public function listBasketProductsAction(ManagerRegistry $doc): Response
+    {
+        $em = $doc -> getManager();
+        $artRep = $em -> getRepository("App:Product");
+        $user = $this -> getUser();
+        /** @var User $user */
+        $userBasket = $user -> getBasket();
+        $userBasketContent = $userBasket ->getBasketProducts();
+        if(!$userBasketContent -> isEmpty())
+        {
+            /**
+             * Permet d'attribuer a chaque article son libelle correspondant
+             * étant donné que la collection ne conserve pas les informations
+             * des produits qu'elle contient
+             */
+            foreach ($userBasketContent as $product) {
+                $localProduct = $product->getProduct()->getId();
+                $realProduct = $artRep->find($localProduct);
+                $libelle = $realProduct->getLibelle();
+                dump($libelle);
+                $product->getProduct()->setLibelle($libelle);
+                dump($product);
+            }
+        }
+        $res = $userBasket ->getBasketProductsArray();
+        dump($userBasketContent);
+        $args = array('articles' => $res);
+        dump($args);
+        return $this -> render("site/basket.html.twig", $args);
+    }
 
 
     //J'ai un don pour les fonctions qui en théorie fonctionnent mais pas en pratique

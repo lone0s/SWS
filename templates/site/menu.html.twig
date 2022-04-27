@@ -11,12 +11,12 @@
                 <li><a href={{ path('app_main') }}>Menu</a></li>
                 <li><a href={{ path('app_edit_profile') }}>Modifier profil</a></li>
                 <li><a href={{ path('_get_products') }}>Lister produits</a></li>
-                <li><a >Panier</a></li>
+                <li><a href={{ path('_basket') }}>Panier</a></li>
                 <li class="connect"><a href={{ path('app_logout')}}>Déconnexion</a></li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') and is_granted('ROLE_SUPER_ADMIN') == false %}
                 <li><a href={{ path('') }}>Gestion des utilisateurs</a></li>
-                <li><a href={{ path('_add_products') }}>Ajouter un produit</a></li>
+                <li><a href={{ path('_add_product') }}>Ajouter un produit</a></li>
                 <li><a href='https://fr.wikipedia.org/wiki/The_Truman_Show'>The Truman Show</a></li>
             {% endif %}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
