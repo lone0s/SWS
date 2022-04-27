@@ -97,11 +97,39 @@ class ClientController extends AbstractController
         $bProductRepository = $em -> getRepository('App:BasketProduct');
         /** @var User $user */
         $user = $this -> getUser();
-        $userBasketContent = $user -> getBasket() -> getBasketProducts();
-        $toz = $userBasketContent ->
-        if (! is_null($userBasketContent)) {
-            $productToRem = $userBasketContent -
+        $userBasket = $user -> getBasket();
+        if (!is_null($userBasket) && !is_null($userBasket->getBasketProducts())) {
+            $basketProduct = $bProductRepository -> find($id);
+            if(!is_null($basketProduct)) {
+                $quantity = $basketProduct->getQuantity();
+                $product = $basketProduct->getProduct();
+                if(!is_null($product)) {
+                    $product->setStock($product->getStock() + $quantity);
+                    $userBasket->removeBasketProduct($basketProduct);
+                    $em->persist($product);
+                    $em->persist($userBasket);
+                    $em->flush();
+                }
+            }
         }
+        return $this -> redirectToRoute('_get_basket_products');
+    }
+
+    #[Route('/commander', name: '_commander')]
+    public function commmander(ManagerRegistry $doc) : Response {
+        $em = $doc -> getManager();
+        /** @var User $user */
+        $user = $this -> getUser();
+        $userBasket = $user -> getBasket();
+        if(!is_null($userBasket)){
+            $userBasketProducts = $userBasket -> getBasketProducts();
+            foreach ($userBasketProducts as $product){
+                $userBasket ->removeBasketProduct($product);
+            }
+            $em -> persist($userBasket);
+            $em -> flush();
+        }
+        return $this -> redirectToRoute('_basket');
     }
 
     #[Route('/userInfo', name: '_userInfo')]
@@ -116,7 +144,7 @@ class ClientController extends AbstractController
         return dump($userBasket);
     }
 
-    #[Route('/basket', name: '_get_basket_products')]
+    #[Route('/basket', name: '_basket')]
     public function listBasketProductsAction(ManagerRegistry $doc): Response
     {
         $em = $doc -> getManager();
@@ -135,9 +163,11 @@ class ClientController extends AbstractController
             foreach ($userBasketContent as $product) {
                 $localProduct = $product->getProduct()->getId();
                 $realProduct = $artRep->find($localProduct);
+                $prix = $realProduct -> getPrice();
                 $libelle = $realProduct->getLibelle();
                 dump($libelle);
                 $product->getProduct()->setLibelle($libelle);
+                $product->getProduct()->setPrice($prix);
                 dump($product);
             }
         }
@@ -150,7 +180,7 @@ class ClientController extends AbstractController
 
 
     //J'ai un don pour les fonctions qui en théorie fonctionnent mais pas en pratique
-    #[Route('/basket', name : '_basket')]
+    #[Route('/basket', name : '_basket???')]
     public function showBasket(ManagerRegistry $doc) : Response
     {
         $user = $this -> getUser();

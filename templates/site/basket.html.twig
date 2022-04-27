@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set somme = 0 %}
 {% block title %}CBD DEALERZZZ - Basket{% endblock %}
 
 {% block page %}
@@ -7,17 +7,23 @@
         <h2>Liste des articles dans votre panier</h2>
         <table>
             <tr>
-                <th>id</th>
-                <th>produit</th>
-                <th>quantité</th>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
             </tr>
             {% for article in articles %}
                 <tr>
-                    <td>{{ article.id }}</td>
                     <td>{{ article.product.libelle }}</td>
+                    <td>{{ article.product.price }}</td>
                     <td>{{ article.quantity }}</td>
                 </tr>
+                {% set somme = somme + (article.product.price) * (article.quantity) %}
             {% endfor %}
         </table>
+
+        <div>
+            <h2>Total</h2>
+            {{ somme }}€
+        </div>
     </div>
 {% endblock %}
