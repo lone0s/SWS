@@ -123,6 +123,10 @@ button:hover{
     background-color: #84A98C;
 }
 
+button .commander {
+    width: 50px;
+}
+
 .alert-danger{
     color: red;
 }
