@@ -116,6 +116,40 @@ class ClientController extends AbstractController
         return $this -> redirectToRoute('_basket');
     }
 
+    #[Route('/basket/empty', name:'_vider_panier')]
+    public function emptyBasket(ManagerRegistry $doc) : Response {
+        $em = $doc -> getManager();
+        /** @var User $user */
+        $user = $this -> getUser();
+        if(!is_null($user)){
+            $userBasket = $user -> getBasket();
+            if(!is_null($userBasket)){
+                $userBasketProducts = $userBasket -> getBasketProducts();
+                if(!$userBasketProducts ->isEmpty()){
+                    foreach ($userBasketProducts as $userBasketProduct){
+                        $productId = $userBasketProduct -> getId();
+                        $productQuantity = $userBasketProduct -> getQuantity();
+                        $bProductRepo = $em -> getRepository("App:BasketProduct");
+                        $dbbBProduct = $bProductRepo -> find($userBasketProduct);
+                        $productRepo = $em -> getRepository("App:Product");
+                        $dbbProduct = $productRepo -> find($dbbBProduct->getProduct()->getId());
+                        dump($dbbBProduct);
+                        dump($dbbProduct);
+                        if(!is_null($dbbBProduct)) {
+                            $dbbProduct->setStock($dbbProduct->getStock() + $productQuantity);
+                            dump($dbbBProduct);
+                                $userBasket->removeBasketProduct($dbbBProduct);
+                                $em ->persist($userBasket);
+                                $em -> persist($dbbBProduct);
+                                $em -> flush();
+                        }
+                    }
+                }
+            }
+        }
+        return $this -> redirectToRoute('_basket');
+    }
+
     #[Route('/commander', name: '_commander')]
     public function commander(ManagerRegistry $doc) : Response {
         $em = $doc -> getManager();
