@@ -15,10 +15,7 @@
                 <li class="connect"><a href={{ path('app_logout')}}>Déconnexion</a></li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') and is_granted('ROLE_SUPER_ADMIN') == false %}
-<<<<<<< HEAD
-=======
                 <li><a href={{ path('admin_user_management') }}>Gestion des utilisateurs</a></li>
->>>>>>> william
                 <li><a href={{ path('_add_product') }}>Ajouter un produit</a></li>
                 <li><a href='https://fr.wikipedia.org/wiki/The_Truman_Show'>The Truman Show</a></li>
             {% endif %}

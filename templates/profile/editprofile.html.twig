@@ -7,11 +7,13 @@
         <h1>Edition du profil</h1>
         <div>
             {{ form_start(editForm) }}
+                {{ form_row(editForm.login) }}
                 {{ form_row(editForm.password, {
                     label: 'Password'
                 }) }}
                 {{ form_row(editForm.firstname) }}
                 {{ form_row(editForm.lastname) }}
+                {{ form_row(editForm.birthdate) }}
             {{ form_end(editForm) }}
         </div>
     </form>

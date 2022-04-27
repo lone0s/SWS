@@ -19,7 +19,11 @@
                     <td>{{ user.login }}</td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.lastname }}</td>
-                    <td><a href="{{ path ('admin_delete_user', { 'id' : user.id } ) }}">Supprimer</a></td>
+                    {% if app.user.id != user.id %}
+                        <td><a href="{{ path ('admin_delete_user', { 'id' : user.id } ) }}">Supprimer</a></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

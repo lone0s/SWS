@@ -35,9 +35,12 @@ class AdminController extends AbstractController
     {
         $em = $doc->getManager();
         $userRepo = $em->getRepository("App:User");
+        $panierRepo = $em->getRepository("App:Basket");
         $user = $userRepo->find($id);
+        $panier = $panierRepo->find($user->getBasket());
         if($user != null){
             $em->remove($user);
+            $em->remove($panier);
             $em->flush();
             $this->addFlash('info', 'Suppresion réussie !');
         }

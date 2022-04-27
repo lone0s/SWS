@@ -98,10 +98,10 @@ class ClientController extends AbstractController
         /** @var User $user */
         $user = $this -> getUser();
         $userBasketContent = $user -> getBasket() -> getBasketProducts();
-        $toz = $userBasketContent ->
-        if (! is_null($userBasketContent)) {
-            $productToRem = $userBasketContent -
-        }
+        /*$toz = $userBasketContent ->
+        if (! is_null($userBasketContent)) [
+            $productToRem = $userBasketContent
+        ]*/
     }
 
     #[Route('/userInfo', name: '_userInfo')]

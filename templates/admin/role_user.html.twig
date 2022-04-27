@@ -19,7 +19,11 @@
                     <td>{{ user.login }}</td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.lastname }}</td>
-                    <td><a href="{{ path ('admin_add_admin', { 'id' : user.id } ) }}">Adminiser</a></td>
+                    {% if app.user.id != user.id %}
+                        <td><a href="{{ path ('admin_add_admin', { 'id' : user.id } ) }}">Adminiser</a></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

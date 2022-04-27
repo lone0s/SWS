@@ -13,15 +13,17 @@
                 <th>quantité</th>
                 <th></th>
             </tr>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.libelle }}</td>
-                    <td>{{ article.price }}</td>
-                    <td>{{ article.stock }}</td>
-                    <td><a href="{{ path ('_add_product_to_basket', { 'id' : article.id} ) }}">Ajouter</a></td>
-                </tr>
-            {% endfor %}
+            {% if articles is defined %}
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.id }}</td>
+                        <td>{{ article.libelle }}</td>
+                        <td>{{ article.price }}</td>
+                        <td>{{ article.stock }}</td>
+                        <td><a href="{{ path ('_add_product_to_basket', { 'id' : article.id} ) }}">Ajouter</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </table>
     </div>
 {% endblock %}
