@@ -151,29 +151,30 @@ class ClientController extends AbstractController
         $artRep = $em -> getRepository("App:Product");
         $user = $this -> getUser();
         /** @var User $user */
-        $userBasket = $user -> getBasket();
-        $userBasketContent = $userBasket ->getBasketProducts();
-        if(!$userBasketContent -> isEmpty())
-        {
-            /**
-             * Permet d'attribuer a chaque article son libelle correspondant
-             * étant donné que la collection ne conserve pas les informations
-             * des produits qu'elle contient
-             */
-            foreach ($userBasketContent as $product) {
-                $localProduct = $product->getProduct()->getId();
-                $realProduct = $artRep->find($localProduct);
-                $prix = $realProduct -> getPrice();
-                $libelle = $realProduct->getLibelle();
-                dump($libelle);
-                $product->getProduct()->setLibelle($libelle);
-                $product->getProduct()->setPrice($prix);
-                dump($product);
+        if(!is_null($user)) {
+            $userBasket = $user->getBasket();
+            $userBasketContent = $userBasket->getBasketProducts();
+            if (!$userBasketContent->isEmpty()) {
+                /**
+                 * Permet d'attribuer a chaque article son libelle correspondant
+                 * étant donné que la collection ne conserve pas les informations
+                 * des produits qu'elle contient
+                 */
+                foreach ($userBasketContent as $product) {
+                    $localProduct = $product->getProduct()->getId();
+                    $realProduct = $artRep->find($localProduct);
+                    $prix = $realProduct->getPrice();
+                    $libelle = $realProduct->getLibelle();
+                    dump($libelle);
+                    $product->getProduct()->setLibelle($libelle);
+                    $product->getProduct()->setPrice($prix);
+                    dump($product);
+                }
             }
+            $res = $userBasket->getBasketProductsArray();
+            dump($userBasketContent);
+            $args = array('articles' => $res);
         }
-        $res = $userBasket ->getBasketProductsArray();
-        dump($userBasketContent);
-        $args = array('articles' => $res);
         dump($args);
         return $this -> render("site/basket.html.twig", $args);
     }

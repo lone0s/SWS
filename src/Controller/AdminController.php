@@ -37,9 +37,20 @@ class AdminController extends AbstractController
         $em = $doc->getManager();
         $userRepo = $em->getRepository("App:User");
         $panierRepo = $em->getRepository("App:Basket");
+        $articleRepo = $em -> getRepository("App:Product");
         $user = $userRepo->find($id);
         $panier = $panierRepo->find($user->getBasket());
+        $panierArticles = $panier -> getBasketProducts();
         if($user != null){
+            if(!$panierArticles ->isEmpty()) {
+                foreach ($panierArticles as $localArticle) {
+                    $localArticle ->setBasket(null);
+                    $articleBdd = $articleRepo ->find($localArticle);
+                    $articleBdd -> setStock($articleBdd->getStock() + $localArticle->getQuantity());
+                    $panier -> removeBasketProduct($localArticle);
+                    $em -> persist($articleBdd);
+                }
+            }
             $em->remove($user);
             $em->remove($panier);
             $em->flush();
