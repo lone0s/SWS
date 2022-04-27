@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BasketProduct;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Form\ArticleType;
@@ -54,36 +55,55 @@ class ClientController extends AbstractController
     public function addToBasket(ManagerRegistry $doc, $id) : Response
     {
         $em = $doc -> getManager();
-        $articleRep = $em -> getRepository("App:Article");
-        $article = $articleRep -> find($id);
-        dump($article);
-        $panierRep = $em -> getRepository("App:Panier");
-        /** @var User $user */
-        $user = $this -> getUser();
-        dump($user);
-        $userBasket = $user -> getPanier();
-        $bb = $userBasket -> get(0);
-        dump($bb);
-        $baskets = $userBasket -> getValues();
-        dump($baskets);
-        $basketId = $bb -> getId();
-        dump($basketId);
-        $panier = $panierRep -> find($basketId);
-        if (!is_null($panier)) {
-            //$userBasket -> add($article);
-            $panier->setArticle($article);
-            $panier->setQuantite(1);
-            $this -> addFlash('info','Ajout Reussi');
-            $em -> persist($panier);
-            $em -> flush();
+        $productRepository = $em -> getRepository("App:Product");
+        $product = $productRepository -> find($id);
+        dump($product);
+        if (!is_null($product) && $product -> getStock() > 0 )
+        {
+            /** @var User $user */
+            $user = $this -> getUser();
+            dump($user);
+            if(!is_null($user)) {
+                $userBasket = $user -> getBasket();
+                dump($userBasket);
+                /*** Si article pas deja present dans panier ***/
+                if (!$userBasket -> hasProduct($product)) {
+                    $basketProduct = new BasketProduct();
+                    $basketProduct->setBasket($userBasket);
+                    $basketProduct->setProduct($product);
+                    $basketProduct->setQuantity(1);
+                    $userBasket->addBasketProduct($basketProduct);
+                    dump($product);
+                }
+                else {
+                    $basketProduct = $userBasket ->getBasketProduct($product);
+                    $basketProduct ->setQuantity($basketProduct -> getQuantity() + 1);
+                    dump($product);
+                }
+                $product->setStock($product->getStock() - 1);
+                $em->persist($basketProduct);
+                $em->persist($userBasket);
+                $em->persist($product);
+                $em->flush();
+                $this->addFlash('success', "Ajout dans panier reussi");
+            }
         }
         return $this -> redirectToRoute('_get_products');
     }
 
     #[Route('/userInfo', name: '_userInfo')]
-    public function getUserVarDump() : Response {
-        return dump($this -> getUser());
+    public function getUserVarDump(ManagerRegistry $doc) : Response {
+        $em = $doc -> getManager();
+        $productRepository = $em -> getRepository("App:Product");
+        $product = $productRepository -> find(3);
+        /** @var User $user */
+        $user = $this -> getUser();
+        $userBasket = $user -> getBasket();
+        dump($userBasket -> hasProduct($product));
+        //dump($userTest);
+        return dump($userBasket);
     }
+
 
 
     //J'ai un don pour les fonctions qui en théorie fonctionnent mais pas en pratique
