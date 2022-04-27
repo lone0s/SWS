@@ -14,7 +14,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('libelle')
             ->add('price')
-            ->add('quantity')
+            ->add('stock')
         ;
     }
 

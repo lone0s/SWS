@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\User;
 use App\Form\ArticleType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ class ClientController extends AbstractController
     public function listProductsAction(ManagerRegistry $doc): Response
     {
         $em = $doc -> getManager();
-        $artRep = $em -> getRepository("App:Article");
+        $artRep = $em -> getRepository("App:Product");
         $articles = $artRep -> findAll();
         $args = array('articles' => $articles);
         $user = $this -> getUser();
@@ -57,7 +58,7 @@ class ClientController extends AbstractController
         $article = $articleRep -> find($id);
         dump($article);
         $panierRep = $em -> getRepository("App:Panier");
-        /** @var \App\Entity\User $user */
+        /** @var User $user */
         $user = $this -> getUser();
         dump($user);
         $userBasket = $user -> getPanier();
@@ -92,15 +93,15 @@ class ClientController extends AbstractController
         $user = $this -> getUser();
         $articleArray = array();
         if(! is_null($user)) {
-            /** @var \App\Entity\User $user */
+            /** @var User $user */
             $userBasket = $user -> getPanier();
             $em = $doc -> getManager();
-            $basketRepo = $em -> getRepository("App:Panier");
+            $basketRepo = $em -> getRepository("App:Basket");
             $basket = $basketRepo -> find($userBasket);
             if(! is_null($basket)) {
                 $articles = $basket->getArticle();
                 foreach ($articles as $article) {
-                    $articleRepo = $em -> getRepository("App:Article");
+                    $articleRepo = $em -> getRepository("App:Product");
                     $articlefin = $articleRepo-> find($article);
                     array_push($articleArray,$articlefin);
                 }
