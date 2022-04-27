@@ -33,11 +33,17 @@ class RegistrationController extends AbstractController
             $entityManager->persist($userData);
             $entityManager->flush();
             // do anything else you need here, like send an email
-            $this->addFlash('success', 'Création du compte effectué');
+            $this->addFlash(
+                'success',
+                'Création du compte effectué');
 
             return $this->render('base.html.twig');
         }
-        $this->addFlash('error', 'Veuillez les bonnes informations !');
+        else if($form->isSubmitted() && !$form->isValid()){
+            $this->addFlash(
+                'error',
+                'Informations incorrects !');
+        }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),

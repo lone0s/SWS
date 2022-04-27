@@ -5,14 +5,12 @@
 {% block page %}
     <form method="post">
         <h1>Inscription</h1>
-        {% if app.session.flashbag.has('error') %}
-            {% for message in app.flashes('error') %}
-                <div class="alert alert-error">
-                    {{ app.session.flashbag.get('error') }}
-                </div>
-            {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-error">
+                {{ message }}
+            </div>
+        {% endfor %}
 
-        {% endif %}
         {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.login) }}
             {{ form_row(registrationForm.plainPassword, {
