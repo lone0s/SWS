@@ -4,7 +4,7 @@
         {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
             <h1>Bonjour</h1>
         {% else %}
-            <h1>Bonjour {{app.user.firstname}}</h1>
+            <h1>Bonjour {{ app.user.login }}</h1>
         {% endif %}
     </div>
 {% endblock %}
