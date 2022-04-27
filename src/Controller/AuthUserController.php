@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\AuthUser;
-use App\Form\AccountCreatorType2;
+use App\Entity\User;
 use App\Form\AuthentificationForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +29,7 @@ class AuthUserController extends AbstractController
 
     public function createAccountAction(ManagerRegistry $doc, Request $request) : Response {
         $em = $doc -> getManager();
-        $newUser = new AuthUser();
+        $newUser = new User();
         $form = $this -> createForm(AccountCreatorType2::class,$newUser);
         $form -> add("send", SubmitType::class, ['label' => "Creer mon compte"]);
         $form -> handleRequest($request);

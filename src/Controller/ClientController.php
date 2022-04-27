@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
+use App\Entity\Product;
 use App\Form\ArticleType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +30,7 @@ class ClientController extends AbstractController
     public function addProductAction(ManagerRegistry $doc, Request $request) : Response
     {
         $em = $doc -> getManager();
-        $article = new Article();
+        $article = new Product();
         $form = $this -> createForm(ArticleType::class,$article);
         $form -> add("send", SubmitType::class, ['label' => "Ajouter un article"]);
         $form -> handleRequest($request);
@@ -57,7 +57,7 @@ class ClientController extends AbstractController
         $article = $articleRep -> find($id);
         dump($article);
         $panierRep = $em -> getRepository("App:Panier");
-        /** @var \App\Entity\AuthUser $user */
+        /** @var \App\Entity\User $user */
         $user = $this -> getUser();
         dump($user);
         $userBasket = $user -> getPanier();
@@ -92,7 +92,7 @@ class ClientController extends AbstractController
         $user = $this -> getUser();
         $articleArray = array();
         if(! is_null($user)) {
-            /** @var \App\Entity\AuthUser $user */
+            /** @var \App\Entity\User $user */
             $userBasket = $user -> getPanier();
             $em = $doc -> getManager();
             $basketRepo = $em -> getRepository("App:Panier");
