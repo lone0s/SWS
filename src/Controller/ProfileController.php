@@ -27,17 +27,21 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form -> isValid()) {
             $user = $form->getData();
-            if($form->get('plainPassword') != null) {
+            if($form->get('password') != null) {
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
-                        $form->get('plainPassword')->getData()
+                        $form->get('password')->getData()
                     )
                 );
             }
             $em->persist($user);
             $em->flush();
             $this->addFlash('info', "Modifications réussies");
+            if(in_array('ROLE_SUPER_ADMIN', $user->getRoles()))
+                return $this->redirectToRoute('app_main');
+            else
+                return $this->redirectToRoute('_get_products');
         }
         
         $args = array("editForm" => $form->createView());
