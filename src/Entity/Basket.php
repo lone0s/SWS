@@ -74,4 +74,31 @@ class Basket
 
         return $this;
     }
+
+  public function hasProduct(Product $product) : bool
+    {
+        $res = false;
+        if(!is_null($this -> basketProducts)) {
+            foreach (($this->basketProducts->getValues()) as $value) {
+                if ($value -> getProduct() -> getId() == $product -> getId())
+                    $res = true;
+            }
+        }
+        return $res;
+    }
+
+    public function getBasketProduct (Product $product) : BasketProduct
+    {
+        $res = null;
+        if ($this -> hasProduct($product)) {
+            foreach (($this -> basketProducts -> getValues()) as $value) {
+                if($value -> getProduct() -> getId() == $product -> getId()) {
+                     $res = $value;
+                }
+            }
+            return $res;
+        }
+        else
+            return $res;
+    }
 }
