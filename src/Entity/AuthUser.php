@@ -54,7 +54,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $panier;
     */
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Panier::class, cascade: ['persist', 'remove'])]
     private $panier;
 
 

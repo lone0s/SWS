@@ -25,7 +25,7 @@ class Panier
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: AuthUser::class, inversedBy: "panier")]
+    #[ORM\OneToOne(inversedBy: "panier", targetEntity: AuthUser::class)]
     #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
     private $user;
 
