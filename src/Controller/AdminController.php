@@ -16,6 +16,7 @@ class AdminController extends AbstractController
         $em = $doc->getManager();
         $userRepo = $em->getRepository("App:User");
         $users = $userRepo->findAll();
+        dump($users);
         $args = array('users' => $users);
         return $this->render('admin/delete_user.html.twig', $args);
     }
