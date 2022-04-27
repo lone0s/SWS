@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
 
             return $this->render('base.html.twig');
         }
-        $this->addFlash('error', 'Veuillez les bonnes informations !');
+        $this->addFlash('info', 'Informations de compte rentrées incorrectes');
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),

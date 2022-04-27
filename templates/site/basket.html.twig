@@ -10,20 +10,26 @@
                 <th>Produit</th>
                 <th>Prix</th>
                 <th>Quantité</th>
+                <th></th>
             </tr>
             {% for article in articles %}
                 <tr>
                     <td>{{ article.product.libelle }}</td>
                     <td>{{ article.product.price }}</td>
                     <td>{{ article.quantity }}</td>
+                    <td><a href="{{ path ('_remove_product', { 'id' : article.id} ) }}">Retirer</a></td>
                 </tr>
                 {% set somme = somme + (article.product.price) * (article.quantity) %}
             {% endfor %}
         </table>
 
         <div>
-            <h2>Total</h2>
-            {{ somme }}€
+            <h2>Total : {{ somme }}€</h2>
+            <!--{{ somme }}€-->
+            <h3><label class="commander"><a href="{{ path('_commander') }}"> Commander </a> </label></h3>
         </div>
+    </div>
+    <div>
+
     </div>
 {% endblock %}

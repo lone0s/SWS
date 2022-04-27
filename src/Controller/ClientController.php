@@ -49,9 +49,9 @@ class ClientController extends AbstractController
         $args = array("formulaire" => $form->createView());
         return $this -> render("Form/articleForm.html.twig",$args);
     }
-
-    #[Route('/product/add/{id}', name : '_add_product_to_basket')]
-    public function addToBasket(ManagerRegistry $doc, $id) : Response
+    //Penser a gérer les Requirements
+    #[Route('/product/add/{id}/{quantity}', name : '_add_product_to_basket', defaults: ['quantity' => 1])]
+    public function addToBasket(ManagerRegistry $doc, $id, $quantity) : Response
     {
         $em = $doc -> getManager();
         $productRepository = $em -> getRepository("App:Product");
@@ -71,16 +71,17 @@ class ClientController extends AbstractController
                     $basketProduct = new BasketProduct();
                     $basketProduct->setBasket($userBasket);
                     $basketProduct->setProduct($product);
-                    $basketProduct->setQuantity(1);
+                    $basketProduct->setQuantity($quantity);
                     $userBasket->addBasketProduct($basketProduct);
                     dump($product);
                 }
                 else {
                     $basketProduct = $userBasket ->getBasketProduct($product);
-                    $basketProduct ->setQuantity($basketProduct -> getQuantity() + 1);
+                    $basketProduct ->setQuantity($basketProduct -> getQuantity() + $quantity);
                     dump($product);
                 }
-                $product->setStock($product->getStock() - 1);
+                //Traiter cas ou on force quantity <<< stock
+                $product->setStock($product->getStock() - $quantity);
                 $em->persist($basketProduct);
                 $em->persist($userBasket);
                 $em->persist($product);
@@ -112,11 +113,11 @@ class ClientController extends AbstractController
                 }
             }
         }
-        return $this -> redirectToRoute('_get_basket_products');
+        return $this -> redirectToRoute('_basket');
     }
 
     #[Route('/commander', name: '_commander')]
-    public function commmander(ManagerRegistry $doc) : Response {
+    public function commander(ManagerRegistry $doc) : Response {
         $em = $doc -> getManager();
         /** @var User $user */
         $user = $this -> getUser();
@@ -132,7 +133,7 @@ class ClientController extends AbstractController
         return $this -> redirectToRoute('_basket');
     }
 
-    #[Route('/userInfo', name: '_userInfo')]
+    #[Route('/debug', name: '_debug')]
     public function getUserVarDump(ManagerRegistry $doc) : Response {
         $em = $doc -> getManager();
         $productRepository = $em -> getRepository("App:Product");
@@ -153,29 +154,32 @@ class ClientController extends AbstractController
         /** @var User $user */
         if(!is_null($user)) {
             $userBasket = $user->getBasket();
-            $userBasketContent = $userBasket->getBasketProducts();
-            if (!$userBasketContent->isEmpty()) {
-                /**
-                 * Permet d'attribuer a chaque article son libelle correspondant
-                 * étant donné que la collection ne conserve pas les informations
-                 * des produits qu'elle contient
-                 */
-                foreach ($userBasketContent as $product) {
-                    $localProduct = $product->getProduct()->getId();
-                    $realProduct = $artRep->find($localProduct);
-                    $prix = $realProduct->getPrice();
-                    $libelle = $realProduct->getLibelle();
-                    dump($libelle);
-                    $product->getProduct()->setLibelle($libelle);
-                    $product->getProduct()->setPrice($prix);
-                    dump($product);
+            if(!is_null($userBasket)) {
+                $userBasketContent = $userBasket->getBasketProducts();
+                if (!$userBasketContent->isEmpty()) {
+                    /**
+                     * Permet d'attribuer a chaque article son libelle correspondant
+                     * étant donné que la collection ne conserve pas les informations
+                     * des produits qu'elle contient
+                     */
+                    foreach ($userBasketContent as $product) {
+                        $localProduct = $product->getProduct();
+                        if (!is_null($localProduct)) {
+                            $localProductID = $localProduct -> getId();
+                            $realProduct = $artRep->find($localProductID);
+                            if(!is_null($realProduct)) {
+                                $prix = $realProduct->getPrice();
+                                $libelle = $realProduct->getLibelle();
+                                $product->getProduct()->setLibelle($libelle);
+                                $product->getProduct()->setPrice($prix);
+                            }
+                        }
+                    }
                 }
             }
             $res = $userBasket->getBasketProductsArray();
-            dump($userBasketContent);
             $args = array('articles' => $res);
         }
-        dump($args);
         return $this -> render("site/basket.html.twig", $args);
     }
 
