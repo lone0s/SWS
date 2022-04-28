@@ -9,34 +9,21 @@
         <h2>Liste de tous les articles</h2>
         <table>
             <tr>
-                <th>id</th>
+
                 <th>libelle</th>
                 <th>prix</th>
                 <th>quantité</th>
                 <th></th>
                 <th></th>
             </tr>
-            {% if articles is defined %}
-                {% for article in articles %}
-                    <tr>
-                        <td>{{ article.id }}</td>
-                        <td>{{ article.libelle }}</td>
-                        <td>{{ article.price }}</td>
-                        <td>{{ article.stock }}</td>
-                        <td>
-                            <label for="choix"></label>
-                            <select id = "choix">
-                            {% for choix in 1 .. article.stock %}
-                                <option value="{{ choix }}">{{ choix }}</option>
-                            {% endfor %}
-                                {{ dump(choix) }}
-                            </select>
-                        </td>
-                    </tr>
+            {{ form_start(listProductForm) }}
+                {% for item in listProductForm.article %}
+                    {{ form_widget(item) }} <br>
                 {% endfor %}
-                <button type="submit" class="btn">Ajouter au panier</button>
-            {% endif %}
+            {{ form_end(registrationForm) }}
         </table>
+
+        <button type="submit" class="btn">Ajouter au panier</button>
     </form>
 
 {% endblock %}
