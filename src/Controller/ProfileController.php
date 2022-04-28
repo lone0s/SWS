@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\AuthUser;
+use App\Entity\User;
 use App\Form\EditProfilType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +19,7 @@ class ProfileController extends AbstractController
     public function editProfileAction(ManagerRegistry $doc, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $em = $doc->getManager();
-        /** @var AuthUser $user */
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(EditProfilType::class, $user);
         $form->add("send", SubmitType::class, ['label' => "Valider les changements"]);

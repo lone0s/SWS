@@ -216,30 +216,4 @@ class ProductController extends AbstractController
         }
         return $this -> render("site/basket.html.twig", $args);
     }
-
-
-    //J'ai un don pour les fonctions qui en théorie fonctionnent mais pas en pratique
-    #[Route('/basket', name : '_basket???')]
-    public function showBasket(ManagerRegistry $doc) : Response
-    {
-        $user = $this -> getUser();
-        $articleArray = array();
-        if(! is_null($user)) {
-            /** @var User $user */
-            $userBasket = $user -> getPanier();
-            $em = $doc -> getManager();
-            $basketRepo = $em -> getRepository("App:Basket");
-            $basket = $basketRepo -> find($userBasket);
-            if(! is_null($basket)) {
-                $articles = $basket->getArticle();
-                foreach ($articles as $article) {
-                    $articleRepo = $em -> getRepository("App:Product");
-                    $articlefin = $articleRepo-> find($article);
-                    array_push($articleArray,$articlefin);
-                }
-            }
-        }
-        $args = array("articles" => $articleArray);
-        return $this -> render("site/liste.html.twig", $args);
-    }
 }
