@@ -67,7 +67,7 @@ li a:hover {
 
 form, .tab{
     background-color: white;
-    width: 400px;
+    width: auto;
     height: auto;
     padding: 20px;
     border-radius: 5px;
