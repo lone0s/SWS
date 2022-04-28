@@ -5,34 +5,53 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ArticleType;
 use App\Form\ListProductType;
+use App\Services\ServiceInverse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Collection;
 
-#[Route('/product', name: 'product')]
+#[Route('/form', name: 'form')]
 class FormController extends AbstractController
 {
-    #[Route('/get_list', name: 'get_list')]
-    public function formListProductAction(ManagerRegistry $doc, Request $req){
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    #[Route('/service', name: '_service')]
+    public function serviceAction(Request $req, ServiceInverse $si) : Response{
+        if($req->isMethod('post')){
+            $post = $req->request->get("name");
+            dump($post);
+
+            $serv = $si->inversePhrase($post);
+            $args = ['res' => $serv];
+        }
+        else{
+            $args = null;
+        }
+
+
+        return $this->render('site/service.html.twig', $args);
+
+    }
+    //Controleur destiné a lister les produits et un combobox mais impossible avec symfony
+    /*#[Route('/get_list', name: '_get_list')]
+    public function formListProductAction(ManagerRegistry $doc, Request $req) : Response {
         $em = $doc->getManager();
         $articlesRepo = $em->getRepository("App:Product");
-        $articles= $articlesRepo->findAll();
-
+        $articles = $articlesRepo->findAll();
+        dump($articles);
 
         $form = $this->createForm(ListProductType::class, $articles);
-
-        foreach($articles as $article){
-            $arr = $this->arrayOfStock($article);
-            $form->add('choice', ChoiceType::class, [
-                'choices' => array_push($arr)
-            ]);
-        }
 
         $form->handleRequest($req);
 
@@ -48,5 +67,6 @@ class FormController extends AbstractController
 
     private function arrayOfStock($article) :array{
         return range(0, $article->getStock());
-    }
+    }*/
 }
+

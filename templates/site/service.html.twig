@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CBD DEALERZZZ - Main{% endblock %}
+
+{% block page %}
+    <div class="service">
+        <form method="post" action="{{ path('form_service') }}">
+            <h1>Service : inverser une phrase </h1>
+            <label for="name">Entrez une phrase:</label>
+            <input type="text" id="name" name="name">
+            {% if res != null %}
+                <p>{{ res }}</p>
+            {% endif %}
+            <button type="submit" name="send">Envoyer</button>
+        </form>
+
+    </div>
+{% endblock %}

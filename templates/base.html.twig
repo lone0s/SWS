@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}CBD DEALERZZZ{% endblock %}</title>
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-</head>
-<body>
-{% block body %}
-    {% block bienvenue %}{% include 'site/entete.html.twig' %}{% endblock %}
-    {% block menu %}{% include 'site/menu.html.twig' %}{% endblock %}
-{% endblock %}
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}CBD DEALERZZZ{% endblock %}</title>
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    </head>
+    <body>
+    {% block body %}
+        {% block bienvenue %}{% include 'site/entete.html.twig' %}{% endblock %}
+        {% block menu %}{% include 'site/menu.html.twig' %}{% endblock %}
+    {% endblock %}
 
-{% if app.session.flashbag.has('success') %}
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-success">
-            <br/>{{ app.session.flashbag.get('success') }}
-        </div>
-    {% endfor %}
-{% endif %}
-{% block page %}{% endblock %}
+    {% if app.session.flashbag.has('success') %}
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success">
+                <br/>{{ app.session.flashbag.get('success') }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block page %}{% endblock %}
 
-{% block footer %}
-    {% include 'site/piedpage.html.twig' %}
-{% endblock %}
-</body>
+    {% block footer %}
+        {% include 'site/piedpage.html.twig' %}
+    {% endblock %}
+    </body>
 </html>

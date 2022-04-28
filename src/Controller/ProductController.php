@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/product', name: 'product')]
 class ProductController extends AbstractController
 {
-    /*#[Route('/get_list', name: '_get_list')]
+    #[Route('/get_list', name: '_get_list')]
     public function listProductsAction(ManagerRegistry $doc): Response
     {
         $em = $doc -> getManager();
@@ -25,7 +25,7 @@ class ProductController extends AbstractController
         dump($articles);
         $args = array('articles' => $articles);
         return $this -> render("site/liste.html.twig", $args);
-    }*/
+    }
 
     #[Route('/add', name: '_add')]
     public function addProductAction(ManagerRegistry $doc, Request $request) : Response
@@ -51,7 +51,7 @@ class ProductController extends AbstractController
     }
     //Penser a gérer les Requirements
     #[Route('/add_to_basket/{id}/{quantity}', name : '_add_to_basket', defaults: ['quantity' => 1])]
-    public function addToBasket(ManagerRegistry $doc, $id, $quantity) : Response
+    public function addToBasket(ManagerRegistry $doc, $id, $quantity=1) : Response
     {
         $em = $doc -> getManager();
         $productRepository = $em -> getRepository("App:Product");
@@ -113,7 +113,7 @@ class ProductController extends AbstractController
                 }
             }
         }
-        return $this -> redirectToRoute('_basket');
+        return $this -> redirectToRoute('product_basket');
     }
 
     #[Route('/empty', name:'_vider_panier')]
@@ -164,7 +164,7 @@ class ProductController extends AbstractController
             $em -> persist($userBasket);
             $em -> flush();
         }
-        return $this -> redirectToRoute('_basket');
+        return $this -> redirectToRoute('product_basket');
     }
 
     #[Route('/debug', name: '_debug')]

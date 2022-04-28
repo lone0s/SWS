@@ -2,28 +2,27 @@
 
 {% block title %}CBD DEALERZZZ - Listing{% endblock %}
 
-{% set choix = 0 %}
-{% set demande = 1 %}
 {% block page %}
     <form method="post">
         <h2>Liste de tous les articles</h2>
         <table>
             <tr>
-
                 <th>libelle</th>
                 <th>prix</th>
-                <th>quantité</th>
-                <th></th>
+                <th>stock</th>
                 <th></th>
             </tr>
-            {{ form_start(listProductForm) }}
-                {% for item in listProductForm.article %}
-                    {{ form_widget(item) }} <br>
-                {% endfor %}
-            {{ form_end(registrationForm) }}
-        </table>
 
-        <button type="submit" class="btn">Ajouter au panier</button>
+            {% for article in articles %}
+                <tr class="tr-table">
+                    <td>{{ article.libelle }}</td>
+                    <td>{{ article.price }}</td>
+                    <td>{{ article.stock }}</td>
+                    <td><a href="{{ path ('product_add_to_basket', { 'id' : article.id} ) }}">Ajouter</a></td>
+                </tr>
+            {% endfor %}
+
+        </table>
     </form>
 
 {% endblock %}
